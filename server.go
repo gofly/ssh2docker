@@ -18,6 +18,7 @@ type Server struct {
 	ClientConfigs map[string]*ClientConfig
 
 	AllowedImages        []string
+	SpecificImage        string
 	DefaultShell         string
 	DockerRunArgsInline  string
 	DockerExecArgsInline string
@@ -82,6 +83,11 @@ func (s *Server) Handle(netConn net.Conn) error {
 		log.Infof("Received disconnect from %s: 11: Bye Bye [preauth]", netConn.RemoteAddr().String())
 		return err
 	}
+
+	if s.SpecificImage == "" {
+		s.SpecificImage = strings.Replace(conn.User(), "_", "/", -1)
+	}
+
 	client := NewClient(conn, chans, reqs, s)
 
 	// Handle requests

@@ -84,6 +84,11 @@ func main() {
 			Value: "",
 		},
 		cli.StringFlag{
+			Name:  "specific-image",
+			Usage: "Specific image, i.e: alpine,ubuntu:trusty,1cf3e6c",
+			Value: "",
+		},
+		cli.StringFlag{
 			Name:  "shell",
 			Usage: "Default shell",
 			Value: "/bin/sh",
@@ -177,6 +182,7 @@ func Action(c *cli.Context) {
 	server.PublicKeyAuthScript = c.String("publickey-auth-script")
 	server.LocalUser = c.String("local-user")
 	server.Banner = c.String("banner")
+	server.SpecificImage = c.String("specific-image")
 
 	// Register the SSH host key
 	hostKey := c.String("host-key")
